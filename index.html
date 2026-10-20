@@ -1066,16 +1066,21 @@
           );
         }
 
-        state.store = data.store;
-        state.products = Array.isArray(data.products)
-          ? data.products
-          : [];
-        state.promotions = Array.isArray(data.promotions)
-          ? data.promotions) {
-          state.selectedQuantities[product.productId] = 1;
-        });
+state.store = data.store;
 
-        renderStore();
+state.products = Array.isArray(data.products)
+  ? data.products
+  : [];
+
+state.promotions = Array.isArray(data.promotions)
+  ? data.promotions
+  : [];
+
+state.products.forEach(function (product) {
+  state.selectedQuantities[product.productId] = 1;
+});
+
+renderStore();
       } catch (error) {
         console.error(error);
         showStoreError(error.message);
