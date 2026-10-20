@@ -735,7 +735,318 @@
     .testing-badge.visible {
       display: block;
     }
+.checkout-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  visibility: hidden;
+  padding: 20px;
+  place-items: center;
+  overflow-y: auto;
+  background: rgba(23, 16, 12, 0);
+  transition:
+    background 0.25s ease,
+    visibility 0.25s ease;
+}
 
+.checkout-overlay.open {
+  visibility: visible;
+  background: rgba(23, 16, 12, 0.65);
+}
+
+.checkout-dialog {
+  width: min(620px, 100%);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: #fcfaf5;
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  box-shadow: 0 24px 70px rgba(23, 16, 12, 0.34);
+  transform: translateY(20px);
+  opacity: 0;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.checkout-overlay.open .checkout-dialog {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.checkout-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.checkout-header h2 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.checkout-header p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.checkout-form {
+  padding: 24px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label,
+.delivery-heading {
+  color: var(--text);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 13px 14px;
+  color: var(--text);
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(159, 45, 32, 0.11);
+}
+
+.form-group textarea {
+  min-height: 85px;
+  resize: vertical;
+}
+
+.delivery-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.delivery-option {
+  position: relative;
+  display: block;
+}
+
+.delivery-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.delivery-option-content {
+  display: block;
+  min-height: 90px;
+  padding: 15px;
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+.delivery-option input:checked + .delivery-option-content {
+  background: rgba(159, 45, 32, 0.05);
+  border-color: var(--primary);
+}
+
+.delivery-option-title {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 900;
+}
+
+.delivery-option-description {
+  display: block;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.shipping-fields {
+  display: none;
+  grid-column: 1 / -1;
+}
+
+.shipping-fields.visible {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.checkout-order-summary {
+  margin: 24px 0 18px;
+  padding: 17px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+}
+
+.checkout-summary-heading {
+  margin: 0 0 13px;
+  font-size: 1rem;
+}
+
+.checkout-summary-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.checkout-summary-line.total {
+  margin-top: 13px;
+  padding-top: 13px;
+  color: var(--text);
+  border-top: 1px solid var(--border);
+  font-size: 1.08rem;
+  font-weight: 900;
+}
+
+.checkout-error {
+  display: none;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  color: #721d17;
+  background: rgba(161, 42, 32, 0.10);
+  border: 1px solid rgba(161, 42, 32, 0.16);
+  border-radius: 12px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.checkout-error.visible {
+  display: block;
+}
+
+.submit-order-button {
+  width: 100%;
+  min-height: 52px;
+  color: white;
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-dark)
+    );
+  border: 0;
+  border-radius: 14px;
+  font-weight: 900;
+}
+
+.submit-order-button.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.checkout-disclaimer {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.order-success {
+  display: none;
+  padding: 42px 25px;
+  text-align: center;
+}
+
+.order-success.visible {
+  display: block;
+}
+
+.success-icon {
+  display: grid;
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 20px;
+  place-items: center;
+  color: white;
+  background: var(--success);
+  border-radius: 50%;
+  font-size: 2.3rem;
+}
+
+.order-success h2 {
+  margin: 0 0 10px;
+}
+
+.order-success p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.order-reference {
+  margin: 22px 0;
+  padding: 16px;
+  color: var(--primary);
+  background: rgba(159, 45, 32, 0.07);
+  border: 1px dashed rgba(159, 45, 32, 0.32);
+  border-radius: 13px;
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+}
+
+.success-close-button {
+  min-height: 46px;
+  padding: 0 22px;
+  color: white;
+  background: var(--text);
+  border: 0;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+@media (max-width: 620px) {
+  .form-grid,
+  .delivery-options,
+  .shipping-fields.visible {
+    grid-template-columns: 1fr;
+  }
+
+  .checkout-overlay {
+    padding: 10px;
+  }
+
+  .checkout-dialog {
+    max-height: calc(100vh - 20px);
+    border-radius: 20px;
+  }
+}
     @media (max-width: 720px) {
       .site-shell {
         width: min(100% - 22px, 1200px);
@@ -937,7 +1248,7 @@
           type="button"
           disabled
         >
-          Checkout coming next
+          Continue to checkout
         </button>
 
         <p class="checkout-note">
@@ -947,9 +1258,314 @@
     </aside>
   </div>
 
-  <div id="testingBadge" class="testing-badge">
-    TEST STORE
-  </div>
+<div id="testingBadge" class="testing-badge">
+  TEST STORE
+</div>
+
+<div
+  id="checkoutOverlay"
+  class="checkout-overlay"
+  aria-hidden="true"
+>
+  <section
+    class="checkout-dialog"
+    aria-label="Checkout"
+  >
+    <div id="checkoutFormView">
+      <div class="checkout-header">
+        <div>
+          <h2>Checkout</h2>
+          <p>Complete your details to create the test order.</p>
+        </div>
+
+        <button
+          id="closeCheckoutButton"
+          class="close-cart"
+          type="button"
+          aria-label="Close checkout"
+        >
+          ✕
+        </button>
+      </div>
+
+      <form id="checkoutForm" class="checkout-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="firstName">First name</label>
+
+            <input
+              id="firstName"
+              name="firstName"
+              type="text"
+              autocomplete="given-name"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="surname">Surname</label>
+
+            <input
+              id="surname"
+              name="surname"
+              type="text"
+              autocomplete="family-name"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="cellphone">Cellphone number</label>
+
+            <input
+              id="cellphone"
+              name="cellphone"
+              type="tel"
+              autocomplete="tel"
+              placeholder="0821234567"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email address</label>
+
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+            >
+          </div>
+
+          <div class="form-group full-width">
+            <span class="delivery-heading">
+              How would you like to receive the order?
+            </span>
+
+            <div class="delivery-options">
+              <label class="delivery-option">
+                <input
+                  type="radio"
+                  name="deliveryMethod"
+                  value="COLLECTION"
+                  checked
+                >
+
+                <span class="delivery-option-content">
+                  <span class="delivery-option-title">
+                    Collection
+                  </span>
+
+                  <span class="delivery-option-description">
+                    Free collection. Collection arrangements
+                    will be confirmed separately.
+                  </span>
+                </span>
+              </label>
+
+              <label class="delivery-option">
+                <input
+                  type="radio"
+                  name="deliveryMethod"
+                  value="SHIPPING"
+                >
+
+                <span class="delivery-option-content">
+                  <span class="delivery-option-title">
+                    Shipping
+                  </span>
+
+                  <span class="delivery-option-description">
+                    Test mode only. Shipping is currently
+                    calculated at R0.
+                  </span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div id="shippingFields" class="shipping-fields">
+            <div class="form-group full-width">
+              <label for="deliveryAddress">
+                Street address
+              </label>
+
+              <input
+                id="deliveryAddress"
+                name="deliveryAddress"
+                type="text"
+                autocomplete="street-address"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="deliverySuburb">Suburb</label>
+
+              <input
+                id="deliverySuburb"
+                name="deliverySuburb"
+                type="text"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="deliveryCity">City</label>
+
+              <input
+                id="deliveryCity"
+                name="deliveryCity"
+                type="text"
+                autocomplete="address-level2"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="deliveryProvince">Province</label>
+
+              <select
+                id="deliveryProvince"
+                name="deliveryProvince"
+              >
+                <option value="">Select province</option>
+                <option value="Eastern Cape">
+                  Eastern Cape
+                </option>
+                <option value="Free State">
+                  Free State
+                </option>
+                <option value="Gauteng">
+                  Gauteng
+                </option>
+                <option value="KwaZulu-Natal">
+                  KwaZulu-Natal
+                </option>
+                <option value="Limpopo">
+                  Limpopo
+                </option>
+                <option value="Mpumalanga">
+                  Mpumalanga
+                </option>
+                <option value="North West">
+                  North West
+                </option>
+                <option value="Northern Cape">
+                  Northern Cape
+                </option>
+                <option value="Western Cape">
+                  Western Cape
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="deliveryPostalCode">
+                Postal code
+              </label>
+
+              <input
+                id="deliveryPostalCode"
+                name="deliveryPostalCode"
+                type="text"
+                inputmode="numeric"
+                autocomplete="postal-code"
+              >
+            </div>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="orderNotes">
+              Order notes (optional)
+            </label>
+
+            <textarea
+              id="orderNotes"
+              name="orderNotes"
+              placeholder="Anything we should know about this order?"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="checkout-order-summary">
+          <h3 class="checkout-summary-heading">
+            Order summary
+          </h3>
+
+          <div class="checkout-summary-line">
+            <span>Normal price</span>
+            <strong id="checkoutSubtotal">R0.00</strong>
+          </div>
+
+          <div
+            id="checkoutDiscountLine"
+            class="checkout-summary-line"
+            hidden
+          >
+            <span>Bundle saving</span>
+            <strong id="checkoutDiscount">-R0.00</strong>
+          </div>
+
+          <div class="checkout-summary-line">
+            <span>Shipping</span>
+            <strong id="checkoutShipping">R0.00</strong>
+          </div>
+
+          <div class="checkout-summary-line total">
+            <span>Total</span>
+            <strong id="checkoutTotal">R0.00</strong>
+          </div>
+        </div>
+
+        <div
+          id="checkoutError"
+          class="checkout-error"
+        ></div>
+
+        <button
+          id="submitOrderButton"
+          class="submit-order-button"
+          type="submit"
+        >
+          Create test order
+        </button>
+
+        <p class="checkout-disclaimer">
+          This creates a test order and temporarily reserves
+          stock. No payment will be processed yet.
+        </p>
+      </form>
+    </div>
+
+    <div id="orderSuccess" class="order-success">
+      <div class="success-icon">✓</div>
+
+      <h2>Order created</h2>
+
+      <p>
+        The order has been recorded and the stock has been
+        reserved while awaiting payment.
+      </p>
+
+      <div
+        id="successOrderReference"
+        class="order-reference"
+      ></div>
+
+      <p id="successOrderTotal"></p>
+
+      <button
+        id="successCloseButton"
+        class="success-close-button"
+        type="button"
+      >
+        Return to the shop
+      </button>
+    </div>
+  </section>
+</div>
+
+<script>
 
   <script>
     /*
@@ -1001,8 +1617,41 @@
       checkoutButton:
         document.getElementById('checkoutButton'),
       testingBadge:
-        document.getElementById('testingBadge')
-    };
+testingBadge:
+  document.getElementById('testingBadge'),
+checkoutOverlay:
+  document.getElementById('checkoutOverlay'),
+closeCheckoutButton:
+  document.getElementById('closeCheckoutButton'),
+checkoutForm:
+  document.getElementById('checkoutForm'),
+checkoutFormView:
+  document.getElementById('checkoutFormView'),
+shippingFields:
+  document.getElementById('shippingFields'),
+checkoutSubtotal:
+  document.getElementById('checkoutSubtotal'),
+checkoutDiscountLine:
+  document.getElementById('checkoutDiscountLine'),
+checkoutDiscount:
+  document.getElementById('checkoutDiscount'),
+checkoutShipping:
+  document.getElementById('checkoutShipping'),
+checkoutTotal:
+  document.getElementById('checkoutTotal'),
+checkoutError:
+  document.getElementById('checkoutError'),
+submitOrderButton:
+  document.getElementById('submitOrderButton'),
+orderSuccess:
+  document.getElementById('orderSuccess'),
+successOrderReference:
+  document.getElementById('successOrderReference'),
+successOrderTotal:
+  document.getElementById('successOrderTotal'),
+successCloseButton:
+  document.getElementById('successCloseButton')
+};
 
     document.addEventListener('DOMContentLoaded', initialiseStore);
 
@@ -1025,11 +1674,50 @@
       }
     );
 
-    document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape') {
-        closeCart();
-      }
-    });
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'Escape') {
+    closeCart();
+    closeCheckout();
+  }
+});
+
+elements.checkoutButton.addEventListener(
+  'click',
+  openCheckout
+);
+
+elements.closeCheckoutButton.addEventListener(
+  'click',
+  closeCheckout
+);
+
+elements.successCloseButton.addEventListener(
+  'click',
+  closeCheckout
+);
+
+elements.checkoutOverlay.addEventListener(
+  'click',
+  function (event) {
+    if (event.target === elements.checkoutOverlay) {
+      closeCheckout();
+    }
+  }
+);
+
+elements.checkoutForm.addEventListener(
+  'submit',
+  submitCheckoutOrder
+);
+
+document
+  .querySelectorAll('input[name="deliveryMethod"]')
+  .forEach(function (radio) {
+    radio.addEventListener(
+      'change',
+      updateDeliveryFields
+    );
+  });
 
     async function initialiseStore() {
       if (
@@ -1676,7 +2364,283 @@ renderStore();
         (Number(value) + Number.EPSILON) * 100
       ) / 100;
     }
+function openCheckout() {
+  const totals = calculateDisplayCart();
 
+  if (totals.itemCount === 0) {
+    return;
+  }
+
+  closeCart();
+
+  elements.checkoutFormView.style.display = 'block';
+  elements.orderSuccess.classList.remove('visible');
+  elements.checkoutError.classList.remove('visible');
+  elements.checkoutError.textContent = '';
+
+  elements.checkoutSubtotal.textContent =
+    formatMoney(totals.subtotal);
+
+  elements.checkoutDiscount.textContent =
+    '-' + formatMoney(totals.discount);
+
+  elements.checkoutDiscountLine.hidden =
+    totals.discount <= 0;
+
+  elements.checkoutShipping.textContent =
+    formatMoney(0);
+
+  elements.checkoutTotal.textContent =
+    formatMoney(totals.total);
+
+  updateDeliveryFields();
+
+  elements.checkoutOverlay.classList.add('open');
+
+  elements.checkoutOverlay.setAttribute(
+    'aria-hidden',
+    'false'
+  );
+
+  document.body.style.overflow = 'hidden';
+}
+
+
+function closeCheckout() {
+  if (
+    elements.submitOrderButton.classList.contains('loading')
+  ) {
+    return;
+  }
+
+  elements.checkoutOverlay.classList.remove('open');
+
+  elements.checkoutOverlay.setAttribute(
+    'aria-hidden',
+    'true'
+  );
+
+  document.body.style.overflow = '';
+}
+
+
+function updateDeliveryFields() {
+  const selectedMethod = document.querySelector(
+    'input[name="deliveryMethod"]:checked'
+  );
+
+  const method = selectedMethod
+    ? selectedMethod.value
+    : 'COLLECTION';
+
+  const shippingSelected = method === 'SHIPPING';
+
+  elements.shippingFields.classList.toggle(
+    'visible',
+    shippingSelected
+  );
+
+  const requiredFieldIds = [
+    'deliveryAddress',
+    'deliverySuburb',
+    'deliveryCity',
+    'deliveryProvince',
+    'deliveryPostalCode'
+  ];
+
+  requiredFieldIds.forEach(function (fieldId) {
+    const field = document.getElementById(fieldId);
+
+    if (field) {
+      field.required = shippingSelected;
+    }
+  });
+}
+
+
+function buildOrderItems() {
+  return Object.entries(state.cart).map(
+    function (entry) {
+      return {
+        productId: entry[0],
+        quantity: entry[1]
+      };
+    }
+  );
+}
+
+
+async function submitCheckoutOrder(event) {
+  event.preventDefault();
+
+  if (
+    elements.submitOrderButton.classList.contains('loading')
+  ) {
+    return;
+  }
+
+  const formData = new FormData(elements.checkoutForm);
+
+  const deliveryMethod = String(
+    formData.get('deliveryMethod') || 'COLLECTION'
+  ).toUpperCase();
+
+  const request = {
+    action: 'createOrder',
+
+    customer: {
+      firstName: String(
+        formData.get('firstName') || ''
+      ).trim(),
+
+      surname: String(
+        formData.get('surname') || ''
+      ).trim(),
+
+      cellphone: String(
+        formData.get('cellphone') || ''
+      ).trim(),
+
+      email: String(
+        formData.get('email') || ''
+      ).trim()
+    },
+
+    delivery: {
+      method: deliveryMethod,
+
+      address: String(
+        formData.get('deliveryAddress') || ''
+      ).trim(),
+
+      suburb: String(
+        formData.get('deliverySuburb') || ''
+      ).trim(),
+
+      city: String(
+        formData.get('deliveryCity') || ''
+      ).trim(),
+
+      province: String(
+        formData.get('deliveryProvince') || ''
+      ).trim(),
+
+      postalCode: String(
+        formData.get('deliveryPostalCode') || ''
+      ).trim()
+    },
+
+    items: buildOrderItems(),
+
+    notes: String(
+      formData.get('orderNotes') || ''
+    ).trim()
+  };
+
+  elements.checkoutError.classList.remove('visible');
+  elements.checkoutError.textContent = '';
+
+  elements.submitOrderButton.classList.add('loading');
+  elements.submitOrderButton.textContent =
+    'Creating order...';
+
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      redirect: 'follow',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify(request)
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        'Order API returned HTTP ' + response.status
+      );
+    }
+
+    const result = await response.json();
+
+    if (!result.success) {
+      throw new Error(
+        result.message || 'The order could not be created.'
+      );
+    }
+
+    showOrderSuccess(result.order);
+  } catch (error) {
+    console.error(error);
+
+    elements.checkoutError.textContent =
+      error.message ||
+      'The order could not be created. Please try again.';
+
+    elements.checkoutError.classList.add('visible');
+  } finally {
+    elements.submitOrderButton.classList.remove('loading');
+    elements.submitOrderButton.textContent =
+      'Create test order';
+  }
+}
+
+
+function showOrderSuccess(order) {
+  elements.checkoutFormView.style.display = 'none';
+
+  elements.successOrderReference.textContent =
+    order.orderId;
+
+  elements.successOrderTotal.textContent =
+    'Order total: ' +
+    formatMoney(order.cart.orderTotal);
+
+  elements.orderSuccess.classList.add('visible');
+
+  state.cart = {};
+  renderCart();
+  elements.checkoutForm.reset();
+  updateDeliveryFields();
+
+  refreshStoreData();
+}
+
+
+async function refreshStoreData() {
+  try {
+    const response = await fetch(
+      API_URL + '?action=store&t=' + Date.now(),
+      {
+        method: 'GET',
+        cache: 'no-store',
+        redirect: 'follow'
+      }
+    );
+
+    const data = await response.json();
+
+    if (!data.success) {
+      return;
+    }
+
+    state.store = data.store;
+    state.products = Array.isArray(data.products)
+      ? data.products
+      : [];
+
+    state.promotions = Array.isArray(data.promotions)
+      ? data.promotions
+      : [];
+
+    renderPromotion();
+    renderProducts();
+  } catch (error) {
+    console.error(
+      'The store data could not be refreshed.',
+      error
+    );
+  }
+}
     function escapeHtml(value) {
       return String(value || '')
         .replaceAll('&', '&amp;')
