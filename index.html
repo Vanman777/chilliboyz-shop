@@ -2234,54 +2234,105 @@
       document.body.style.overflow = '';
     }
 
-    function openCheckout() {
-      const totals = calculateDisplayCart();
+function openCheckout() {
+  const totals = calculateDisplayCart();
 
-      if (totals.itemCount === 0) {
-        return;
-      }
+  if (totals.itemCount === 0) {
+    return;
+  }
 
-      closeCart();
+  const checkoutOverlay =
+    document.getElementById('checkoutOverlay');
 
-      elements.checkoutFormView.style.display =
-        'block';
+  const checkoutFormView =
+    document.getElementById('checkoutFormView');
 
-      elements.orderSuccess.classList.remove(
-        'visible'
-      );
+  const orderSuccess =
+    document.getElementById('orderSuccess');
 
-      elements.checkoutError.classList.remove(
-        'visible'
-      );
+  const checkoutError =
+    document.getElementById('checkoutError');
 
-      elements.checkoutError.textContent = '';
+  const checkoutSubtotal =
+    document.getElementById('checkoutSubtotal');
 
-      elements.checkoutSubtotal.textContent =
-        formatMoney(totals.subtotal);
+  const checkoutDiscount =
+    document.getElementById('checkoutDiscount');
 
-      elements.checkoutDiscount.textContent =
-        '-' + formatMoney(totals.discount);
+  const checkoutDiscountLine =
+    document.getElementById('checkoutDiscountLine');
 
-      elements.checkoutDiscountLine.hidden =
-        totals.discount <= 0;
+  const checkoutShipping =
+    document.getElementById('checkoutShipping');
 
-      elements.checkoutShipping.textContent =
-        formatMoney(0);
+  const checkoutTotal =
+    document.getElementById('checkoutTotal');
 
-      elements.checkoutTotal.textContent =
-        formatMoney(totals.total);
+  const requiredElements = {
+    checkoutOverlay: checkoutOverlay,
+    checkoutFormView: checkoutFormView,
+    orderSuccess: orderSuccess,
+    checkoutError: checkoutError,
+    checkoutSubtotal: checkoutSubtotal,
+    checkoutDiscount: checkoutDiscount,
+    checkoutDiscountLine: checkoutDiscountLine,
+    checkoutShipping: checkoutShipping,
+    checkoutTotal: checkoutTotal
+  };
 
-      updateDeliveryFields();
+  const missingElements = Object.keys(requiredElements)
+    .filter(function (key) {
+      return !requiredElements[key];
+    });
 
-      elements.checkoutOverlay.classList.add('open');
+  if (missingElements.length > 0) {
+    console.error(
+      'Missing checkout elements:',
+      missingElements
+    );
 
-      elements.checkoutOverlay.setAttribute(
-        'aria-hidden',
-        'false'
-      );
+    alert(
+      'The checkout could not open because these page ' +
+      'elements are missing: ' +
+      missingElements.join(', ')
+    );
 
-      document.body.style.overflow = 'hidden';
-    }
+    return;
+  }
+
+  closeCart();
+
+  checkoutFormView.style.display = 'block';
+  orderSuccess.classList.remove('visible');
+  checkoutError.classList.remove('visible');
+  checkoutError.textContent = '';
+
+  checkoutSubtotal.textContent =
+    formatMoney(totals.subtotal);
+
+  checkoutDiscount.textContent =
+    '-' + formatMoney(totals.discount);
+
+  checkoutDiscountLine.hidden =
+    totals.discount <= 0;
+
+  checkoutShipping.textContent =
+    formatMoney(0);
+
+  checkoutTotal.textContent =
+    formatMoney(totals.total);
+
+  updateDeliveryFields();
+
+  checkoutOverlay.classList.add('open');
+
+  checkoutOverlay.setAttribute(
+    'aria-hidden',
+    'false'
+  );
+
+  document.body.style.overflow = 'hidden';
+}
 
     function closeCheckout() {
       if (
