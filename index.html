@@ -2641,14 +2641,11 @@ async function refreshStoreData() {
     );
   }
 }
-    function escapeHtml(value) {
-      return String(value || '')
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
-    }
+function escapeHtml(value) {
+  const element = document.createElement('div');
+  element.textContent = String(value || '');
+  return element.innerHTML;
+}
   </script>
 </body>
 </html>
